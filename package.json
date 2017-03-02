@@ -1,6 +1,6 @@
 {
   "name": "gulp-base64-encode-font",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "given a passed collection of fonts, will create a uniq css/sass file with @font-family defininitions containinig base64 encoded font data",
   "main": "index.js",
   "scripts": {
@@ -17,5 +17,14 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/pete-hotchkiss/gulp-base64-encode-font.git"
+  },
+  "dependencies": {
+    "gulp-util": "~2.2.14",
+    "through2": "~0.4.1",
+    "cheerio": "~0.13.1",
+    "mime": "~1.2.1"
+ },
+ "devDependencies": {
+    "mocha": "~1.17.1"
   }
 }

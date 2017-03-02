@@ -3,29 +3,29 @@ var path    = require('path');
 var mime    = require('mime');
 var gutil   = require('gulp-util');
 var through = require('through2');
-var rename = require('gulp-rename');
 
 module.exports = function(options) {
   "use strict";
 
-  return through.obj(function(file, enc, callback) {
+  function gulpBase64EncodeFont(file, enc, callback) {
+
     if (file.isNull()) {
       this.push(file);
       return callback();
     }
 
     if (file.isStream()) {
-      this.emit('error', new gutil.PluginError("gulp-simplefont64", "Stream content is not supported"));
+      this.emit('error', new gutil.PluginError("gulp-gulp-base64-encode-font", "this plugin doesn't support streams"));
       return callback();
     }
 
     if (file.isBuffer()) {
-      var fontToBase64 = new Buffer(file.contents).toString('base64');
-      var fileName = path.basename(file.path, path.extname(file.path));
-      var fontAttrs = fileName.split('-');
-      var fontFamily = fontAttrs.shift();
-      var css = '@font-face { font-family: \'' + fontFamily + '\'; ';
-      css += 'src: url(data:\'' + mime.lookup(file.path) + '; base64,' + fontToBase64 + '\');}';
+      var fBase64 = new Buffer(file.contents).toString('base64');
+      var fName = path.basename(file.path, path.extname(file.path));
+      var fAtts = fName.split('-');
+      var fam = fAtts.shift();
+      var css = '@font-face { font-family: \'' + fam + '\'; ';
+      css += 'src: url(\'data:' + mime.lookup(file.path) + '; base64,' + fBase64 + '\');}';
 
       file.contents = new Buffer(css);
       file.path = ((options.name) ? options.name : file.path) + ".css";
@@ -34,5 +34,7 @@ module.exports = function(options) {
 
       return callback(null, file);
     }
-  });
+  };
+
+  return through.obj(gulpBase64EncodeFont);
 };
